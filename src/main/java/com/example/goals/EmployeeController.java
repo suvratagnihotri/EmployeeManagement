@@ -40,6 +40,18 @@ public class EmployeeController {
             return new ResponseEntity<Employee>(HttpStatus.NOT_FOUND);
         }
     }
+    
+    @GetMapping("/{gender}")
+    public ResponseEntity<List<Employee>> get(@PathVariable String gender) {
+        try {
+            List<Employee> employee = service.getEmployees(gender);
+            log.info("employee for given id is " + service.getEmployees(gender));
+            return new ResponseEntity<List<Employee>>(employee, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+        	log.error("no employee found for the given id");
+            return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/")
     public ResponseEntity<String> add(@RequestBody Employee employee) {
     	log.info("employee added is :" + employee.toString());

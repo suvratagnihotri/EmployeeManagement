@@ -18,7 +18,10 @@ public class Employee {
     }
 
     public Employee(int id, String name, int salary, String gender) {
-        
+        this.id = id;
+        this.name = name;
+        this.gender= gender;
+        this.salary = salary;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +58,20 @@ public class Employee {
 	public String getGender() {
 		return this.gender;
 	}
+	
+	public boolean isMale() {
+		if(this.gender.toString() == "male") {
+			return true;
+		}
+		return false;
+	}
+	
+//	public boolean isFemale() {
+//		if(this.gender == "female") {
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	@Override
 	public String toString() {
