@@ -2,6 +2,8 @@ package com.example.goals;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//import com.example.goals.Employee.Gender;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -25,7 +29,7 @@ public class EmployeeController {
     private static final Logger log = LoggerFactory.getLogger(EmployeeController.class);
     @GetMapping("")
     public List<Employee> list() {
-    	log.info("All employees are " + service.listAllEmployee().toString());
+//    	log.info("All employees are " + service.listAllEmployee());
         return service.listAllEmployee();
     }
 
@@ -41,16 +45,26 @@ public class EmployeeController {
         }
     }
     
-    @GetMapping("/{gender}")
-    public ResponseEntity<List<Employee>> get(@PathVariable String gender) {
+    @GetMapping("/Gender/{gender}")
+    public ResponseEntity<List<Employee>> getByGender(@PathVariable("gender") String gender) {
         try {
-            List<Employee> employee = service.getEmployees(gender);
-            log.info("employee for given id is " + service.getEmployees(gender));
-            return new ResponseEntity<List<Employee>>(employee, HttpStatus.OK);
+        	if(Gender.Male.toString().equals(gender)) {
+        		List<Employee> employee = service.getEmployees(Gender.Male);
+                log.info("employee for given id is " + service.getEmployees(Gender.Male));
+                return new ResponseEntity<List<Employee>>(employee, HttpStatus.OK);
+        	}
+        	else if(Gender.Female.toString().equals(gender)) {
+        		List<Employee> employee = service.getEmployees(Gender.Female);
+                log.info("employee for given id is " + service.getEmployees(Gender.Female));
+                return new ResponseEntity<List<Employee>>(employee, HttpStatus.OK);
+        	}
+        		
         } catch (NoSuchElementException e) {
         	log.error("no employee found for the given id");
             return new ResponseEntity<List<Employee>>(HttpStatus.NOT_FOUND);
         }
+        
+        return null;
     }
     @PostMapping("/")
     public ResponseEntity<String> add(@RequestBody Employee employee) {
@@ -86,7 +100,7 @@ public class EmployeeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
     	try {
-    		Employee existEmployee = service.getEmployee(id);
+//    		Employee existEmployee = service.getEmployee(id);
     		service.deleteEmployee(id);
     	}
     	catch(NoSuchElementException e){

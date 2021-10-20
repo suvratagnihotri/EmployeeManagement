@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//import com.example.goals.Employee.Gender;
+
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -23,29 +25,39 @@ public class EmployeeService {
         return repository.findById(id).get();
     }
     
+    public boolean isMale(Employee emp) {
+    	if(emp.getGender() == Gender.Male) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean isFemale(Employee emp) {
+    	if(emp.getGender() == Gender.Female) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    
+    
 //    @OverLoading
-    public List<Employee> getEmployees(String gender) {
+    public List<Employee> getEmployees(Gender gender) {
+    	try 
+    	{
         List <Employee> emp = new ArrayList<>();
         List <Employee> askedEmp = new ArrayList<>();
         emp = repository.findAll();
-        if(gender.toString() == "male") {
         	for(int i=0; i<emp.size(); i++) {
-        		if(emp.get(i).isMale()) {
+        		if(emp.get(i).getGender()==gender) {
         			askedEmp.add(emp.get(i));
         		}
         	}
         	return askedEmp;
-        }
-//        if(gender.toString() == "female") {
-//        	for(int i=0; i<emp.size(); i++) {
-//        		if(emp.get(i).isFemale()) {
-//        			askedEmp.add(emp.get(i));
-//        		}
-//        	}
-//        	return askedEmp;
-//        }
-        
-        return null;
+    	}
+    	catch(Exception ex) {
+    		return (List<Employee>) ex;
+    	}
     }
 
     public void deleteEmployee(Integer id) {

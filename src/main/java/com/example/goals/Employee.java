@@ -12,12 +12,15 @@ public class Employee {
     private int id;
     private String name;
     private int salary;
-    private String gender;
+    private Gender gender;
+    
+    
+    
 
     public Employee() {
     }
 
-    public Employee(int id, String name, int salary, String gender) {
+    public Employee(int id, String name, int salary, Gender gender) {
         this.id = id;
         this.name = name;
         this.gender= gender;
@@ -28,7 +31,6 @@ public class Employee {
     public int getId() {
         return id;
     }
-//other setters and getters
 
 	public void setId(Integer id2) {
 		this.id = id2;
@@ -51,32 +53,18 @@ public class Employee {
 		return this.salary;
 	}
 	
-	public void setGender(String gender) {
-		this.gender = gender.toLowerCase();
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 	
-	public String getGender() {
+	public Gender getGender() {
 		return this.gender;
 	}
-	
-	public boolean isMale() {
-		if(this.gender.toString() == "male") {
-			return true;
-		}
-		return false;
-	}
-	
-//	public boolean isFemale() {
-//		if(this.gender == "female") {
-//			return true;
-//		}
-//		return false;
-//	}
 	
 	@Override
 	public String toString() {
 		StringBuffer str = new StringBuffer();
-		str.append(" Name : " + this.getName() + " Salary : " + this.getSalary() + " Gender :" +this.getGender()); 
+		str.append(" Name : " + this.getName() + " Salary : " + this.getSalary() ); 
 		return str.toString();
 	}
 }
